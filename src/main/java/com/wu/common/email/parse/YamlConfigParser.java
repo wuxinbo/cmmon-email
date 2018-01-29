@@ -1,9 +1,6 @@
 package com.wu.common.email.parse;
 
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -42,6 +39,11 @@ public class YamlConfigParser extends AbstractConfigParser{
      * 附件信息
      */
     private static final String ATTACHMENT_KEY="attachment";
+    /**
+     * html内容
+     */
+    private static final String HTMLMSG_KEY="htmlMsg";
+
     /**
      * 附件网络地址
      */
@@ -92,6 +94,12 @@ public class YamlConfigParser extends AbstractConfigParser{
         //附件支持本地文件和网络文件发送，这里做一个兼容处理如果设置了url，就使用url从网络读取文件来发送
         attachment.setURL(new URL((String)attachconfig.get(ATTACHMENT_URL_KEY)));
         return email.attach(attachment);
+    }
+
+    @Override
+    protected HtmlEmail doParseHtmlEmail(HtmlEmail email) throws Exception {
+        email.setHtmlMsg((String) configMap.get(HTMLMSG_KEY));
+        return email;
     }
 
     /**
