@@ -1,0 +1,14 @@
+HostName: smtp.163.com
+Charset: UTF-8
+SslSmtpPort: !!str 465
+userName: wuxincaiaaa@163.com
+password: Wasd8426
+From: wuxincaiaaa@163.com
+Msg: email 测试
+Subject: 讯联智付二维码支付系统通信密钥
+To: wuxincai@outlook.com
+Type: MutipartEmail
+attachment:
+  path: /home/wuxinbo/Documents/qrcode/background.png
+  name: qrcodeBackground.png
+  description: bakckground
