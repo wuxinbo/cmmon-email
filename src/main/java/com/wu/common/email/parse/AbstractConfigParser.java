@@ -83,9 +83,23 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
     protected  MultiPartEmail doParseMutiPartEmail(MultiPartEmail email) throws Exception{
         return null;
     }
+
+    /**
+     * 解析带html邮件配置信息，不提供默认实现，由子类去实现
+     * @param email 初步解析的配置信息
+     * @return 解析好的html配置信息
+     * @throws Exception 解析失败抛出错误
+     */
     protected HtmlEmail doParseHtmlEmail(HtmlEmail email)throws Exception{
         return null;
     }
+
+    /**
+     * 解析普通文本邮件的配置信息，如果有需要可以重写该方法，同样本类不提供实现，由子类去实现
+     * @param email 初步解析的邮件配置信息
+     * @return 解析并封装好的配置信息
+     * @throws Exception 解析失败抛出异常
+     */
     protected SimpleEmail doParseSimpleEmail(SimpleEmail email)throws Exception{
         return null;
     }
