@@ -1,0 +1,27 @@
+@startuml
+note right of AbstractConfigParser :解析器抽象类
+abstract class AbstractConfigParser {
+   # MultiPartEmail doParseMutiPartEmail(MultiPartEmail email)
+   # HtmlEmail doParseHtmlEmail(HtmlEmail email)
+   # SimpleEmail doParseSimpleEmail(SimpleEmail email)
+   # {abstract} void doParse(EmailType type)
+   # {abstract} EmailType parseEmailType()
+}
+note top of EmailConfigParser: 配置信息解析接口
+interface EmailConfigParser{
+ + Email parse()
+}
+note left of YamlConfigParser:YAML文件解析器
+class YamlConfigParser
+note right of ConfigCenterParser:配置中心解析器
+class ConfigCenterParser
+
+EmailConfigParser<|-- AbstractConfigParser
+AbstractConfigParser<|-- YamlConfigParser
+AbstractConfigParser<|-- ConfigCenterParser
+
+
+
+
+
+@enduml
