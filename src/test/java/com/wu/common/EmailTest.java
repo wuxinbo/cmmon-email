@@ -2,10 +2,8 @@ package com.wu.common;
 
 import com.wu.common.email.parse.YamlConfigParser;
 import com.wu.common.email.send.EmailSender;
-import org.apache.commons.mail.MultiPartEmail;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
 
 
 /**
