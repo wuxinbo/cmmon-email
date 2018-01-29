@@ -3,6 +3,7 @@ package com.wu.common.email.parse;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.MultiPartEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -10,15 +11,17 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
+
 
 /**
  * yaml 格式配置文件解析器
  * Created by wuxinbo on 18-1-25.
  */
 public class YamlConfigParser extends AbstractConfigParser{
-    private Logger logger =LoggerFactory.getLogger(getClass());
+    private static Logger logger =LoggerFactory.getLogger(YamlConfigParser.class);
     /**
      * 字符串截取长度
      */
@@ -32,6 +35,19 @@ public class YamlConfigParser extends AbstractConfigParser{
      */
     private static final String PASSWD_KEY="password";
     /**
+     * 邮件类型
+     */
+    private static final String EMAIL_TYPE_KEY="Type";
+    /**
+     * 附件信息
+     */
+    private static final String ATTACHMENT_KEY="attachment";
+    /**
+     * 附件网络地址
+     */
+    private static final String ATTACHMENT_URL_KEY="Url";
+
+    /**
      * 收件人
      */
     private static final String TO_KEY="To";
@@ -44,20 +60,38 @@ public class YamlConfigParser extends AbstractConfigParser{
      * 在将map转化成Email对象时不参与解析
      */
     private static final String[] EXCLUDE_FIELD=new String []{"To"};
-    public Email parse() throws Exception{
-        InputStream is =getClass().getClassLoader().getResourceAsStream(COINFIG_NAME);
-        Map<String,Object> config = (Map<String, Object>) new Yaml().load(is);
-        Email email =mananuParse(config,map2Email(config));
-        return email;
-    }
+    /**
+     * 原始的config配置信息map结构
+     */
+    private Map<String,Object> configMap ;
+
 
     /**
-     * 将map转化为email对象，利用反射将email的成员变量和map进行一一对应
-     * @param config map结构的config对象
-     * @return 解析好的Email对象
+     * 从yaml配置中读取配置信息并初步转化为map
+     * @return 解析好的map对象
      */
-    private Email map2Email(Map config) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        return (Email) map2Object(Email.class,config);
+    private Map<String,Object> parseConfig2Map(){
+        InputStream is =getClass().getClassLoader().getResourceAsStream(COINFIG_NAME);
+        return (Map<String, Object>) new Yaml().load(is);
+    }
+    protected EmailType parseEmailType() throws Exception {
+        configMap =parseConfig2Map();
+        return EmailType.valueOf((String) configMap.get(EMAIL_TYPE_KEY));
+    }
+
+    protected Email doParse(EmailType type) throws Exception {
+      Email email=  (Email) map2Object(type.getInstClass(), configMap);
+       return mananuParse(configMap, email);
+    }
+
+    @Override
+    protected MultiPartEmail doParseMutiPartEmail(MultiPartEmail email) throws Exception {
+        Map attachconfig = (Map) configMap.get(ATTACHMENT_KEY);
+        EmailAttachment attachment = (EmailAttachment) map2Object(EmailAttachment.class,attachconfig );
+        attachment.setDisposition(EmailAttachment.ATTACHMENT);
+        //附件支持本地文件和网络文件发送，这里做一个兼容处理如果设置了url，就使用url从网络读取文件来发送
+        attachment.setURL(new URL((String)attachconfig.get(ATTACHMENT_URL_KEY)));
+        return email.attach(attachment);
     }
 
     /**
@@ -65,8 +99,8 @@ public class YamlConfigParser extends AbstractConfigParser{
      * @param convertClass 需要转化的类
      * @param config 配置信息
      */
-    private Object map2Object(Class convertClass,Map config) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        Method[] methods = convertClass.getDeclaredMethods();
+    private Object map2Object(Class convertClass, Map config) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+        Method[] methods = convertClass.getMethods();
         Object o = convertClass.newInstance();
         for (Method method : methods) {
             String methodName =method.getName();
@@ -74,7 +108,9 @@ public class YamlConfigParser extends AbstractConfigParser{
                 String methodNameKey =methodName.substring(METHODNAME_BEGINDEX);
                 Object value =config.get(methodNameKey);
                 //目前只支持一个参数的set方法，由于Email有些字段不能直接调用set方法，所以需要手工指定
-                if (value!=null&&method.getParameterTypes().length==1&& !Arrays.asList(EXCLUDE_FIELD).contains(methodNameKey)) { //mapkey和对象一一对应
+                if (    value!=null
+                        &&method.getParameterTypes().length==1
+                        &&!Arrays.asList(EXCLUDE_FIELD).contains(methodNameKey)) { //mapkey和对象一一对应
                     logger.debug("parse config key is "+methodName+" value is "+value);
                     method.invoke(o,value);
                 }
@@ -93,9 +129,6 @@ public class YamlConfigParser extends AbstractConfigParser{
         email.setAuthentication((String) config.get(USERNAME_KEY),(String) config.get(PASSWD_KEY));
         //解析收件人邮箱
         email.addTo((String) config.get(TO_KEY));
-        //解析邮件附件信息
-         EmailAttachment attachment = (EmailAttachment) map2Object(EmailAttachment.class,config);
-//         email.set
         return email;
     }
 }
