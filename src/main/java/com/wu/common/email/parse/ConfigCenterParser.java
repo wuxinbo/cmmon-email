@@ -1,9 +1,11 @@
 package com.wu.common.email.parse;
 
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * 通过解析spring配置中心配置的数据来配置邮件发送者
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Created by wuxinbo on 18-1-26.
  */
 @Component
-public class ConfigCenterParser implements EmailConfigParser {
+public class ConfigCenterParser extends AbstractConfigParser{
     /**
      * 主机名
      */
@@ -37,12 +39,28 @@ public class ConfigCenterParser implements EmailConfigParser {
      */
     @Value("${email.from}")
     private String from;
-    public Email parse() throws Exception {
-        Email email =new SimpleEmail();
+    /**
+     * 邮件类型
+     */
+    @Value("${email.type}")
+    private String type;
+
+    @Override
+    protected EmailType parseEmailType() throws Exception {
+        if (StringUtils.isEmpty(type)){ //如果没有设置值，默认发送简单文本邮件
+            return EmailType.SIMPLE;
+        }
+        return EmailType.valueOf(type);
+    }
+
+    @Override
+    protected Email doParse(EmailType type) throws Exception {
+        Email email = type.getInstClass().newInstance();
         email.setHostName(hostName);
         email.setSslSmtpPort(sslSmtpPort);
         email.setAuthentication(userName,password);
         email.setFrom(from);
         return email;
     }
+
 }

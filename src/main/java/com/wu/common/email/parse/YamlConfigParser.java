@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,6 +54,11 @@ public class YamlConfigParser extends AbstractConfigParser{
      * 收件人
      */
     private static final String TO_KEY="To";
+    /**
+     * 抄送人
+     */
+    private static final String CC_KEY="Cc";
+
 
     /**
      * 配置文件名字
@@ -61,7 +67,7 @@ public class YamlConfigParser extends AbstractConfigParser{
     /**
      * 在将map转化成Email对象时不参与解析
      */
-    private static final String[] EXCLUDE_FIELD=new String []{"To"};
+    private static final String[] EXCLUDE_FIELD=new String []{TO_KEY,CC_KEY};
     /**
      * 原始的config配置信息map结构
      */
@@ -136,7 +142,17 @@ public class YamlConfigParser extends AbstractConfigParser{
         //解析用户名和密码
         email.setAuthentication((String) config.get(USERNAME_KEY),(String) config.get(PASSWD_KEY));
         //解析收件人邮箱
-        email.addTo((String) config.get(TO_KEY));
+        List<String> toList = (List) config.get(TO_KEY);
+        for (String to : toList) {
+            email.addTo(to);
+        }
+        //解析抄送人邮箱
+        List<String> ccList = (List) config.get(CC_KEY);
+        if (ccList!=null&&!ccList.isEmpty()){ //抄送列表可能为空，所以需要做非空判断
+            for (String cc : ccList) {
+                email.addCc(cc);
+            }
+        }
         return email;
     }
 }

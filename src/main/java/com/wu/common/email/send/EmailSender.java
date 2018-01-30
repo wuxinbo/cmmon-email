@@ -1,5 +1,6 @@
 package com.wu.common.email.send;
 
+import com.wu.common.email.parse.ConfigCenterParser;
 import com.wu.common.email.parse.EmailConfigParser;
 import com.wu.common.email.parse.YamlConfigParser;
 import org.apache.commons.mail.Email;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.wu.common.email.send.EmailSender.ConfigSource.CONFIG_CENTER;
 import static com.wu.common.email.send.EmailSender.ConfigSource.YAML;
 
 /**
@@ -40,8 +42,8 @@ public class EmailSender {
 
     private static final Map<String,Class<? extends EmailConfigParser>> PARSER_MAP =new HashMap();
     static {
-        PARSER_MAP.put(YAML.name(),YamlConfigParser.class);
-
+        PARSER_MAP.put(YAML.name(),YamlConfigParser.class); //YAML 配置文件
+        PARSER_MAP.put(CONFIG_CENTER.name(), ConfigCenterParser.class); //配置中心
     }
     /**
      * 初始化邮件，
@@ -55,7 +57,7 @@ public class EmailSender {
         return emailConfigParser.parse();
 
     }
-
+//    public void sendEmail(ConfigSource source,)
     public void sendEmail(ConfigSource source){
         try {
             Email email = init(source);

@@ -1,13 +1,50 @@
 HostName: smtp.163.com
 Charset: UTF-8
 SslSmtpPort: !!str 465
-userName: ******@163.com
-password:
-From: *******@163.com
+userName: 111111111@163.com
+password: xxxxxxxxx
+From: 11111111@163.com
 Msg: email 测试
-Subject: ********系统通信密钥
-To: ******@outlook.com
-Type: MUTIPART
+Subject: '********系统通信密钥'
+To:
+  -
+Cc:
+Type: HTML
+htmlMsg: '<html>
+          <head>
+            <title>无标题文档</title>
+              <style type="text/css">
+            <!--
+            .STYLE1 {font-family: "宋体"}
+            .STYLE2 {color: #000000}
+            .STYLE3 {color: #CC0000}
+            -->
+            </style>
+          </head><body>
+          <h2 class="STYLE2">写出网页中显示红色部分的主要表单代码？</h2>
+          <form id="form1" name="form1" method="post" action="">
+              <h2 class="STYLE3">请选择您喜欢的音乐（只能选一种）</h2>
+              <h2 class="STYLE3">
+              <span class="STYLE1">
+              <label>
+              <input type="radio" name="RadioGroup1" value="1" />
+             摇滚</label>
+            </span></h2>
+            <h2 class="STYLE3"><span class="STYLE1">
+            <label>
+                <input type="radio" name="RadioGroup1" value="2" />
+                 爵士
+            </label>
+<label>
+    <input name="RadioGroup1" type="radio" value="3" checked="checked" />
+    流行</label>
+    </span>
+    </h2>
+</form>
+<h2> </h2>
+<label></label>
+</body>
+</html>'
 attachment:
 #  Path: /****/*****/Documents/qrcode/background.png
   Url: http://f.hiphotos.baidu.com/image/h%3D300/sign=4a0a3dd10155b31983f9847573ab8286/503d269759ee3d6db032f61b48166d224e4ade6e.jpg
