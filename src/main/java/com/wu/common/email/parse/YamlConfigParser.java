@@ -142,17 +142,8 @@ public class YamlConfigParser extends AbstractConfigParser{
         //解析用户名和密码
         email.setAuthentication((String) config.get(USERNAME_KEY),(String) config.get(PASSWD_KEY));
         //解析收件人邮箱
-        List<String> toList = (List) config.get(TO_KEY);
-        for (String to : toList) {
-            email.addTo(to);
-        }
-        //解析抄送人邮箱
-        List<String> ccList = (List) config.get(CC_KEY);
-        if (ccList!=null&&!ccList.isEmpty()){ //抄送列表可能为空，所以需要做非空判断
-            for (String cc : ccList) {
-                email.addCc(cc);
-            }
-        }
+        addToAndCc((List) config.get(TO_KEY),(List) config.get(CC_KEY),email);
         return email;
     }
+
 }

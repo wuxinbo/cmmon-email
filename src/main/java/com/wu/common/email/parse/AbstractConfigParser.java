@@ -1,11 +1,10 @@
 package com.wu.common.email.parse;
 
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
+import com.wu.common.email.receiver.EmailRecevier;
+import org.apache.commons.mail.*;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * 配置信息解析器抽象基类，负责对所有的解析器进行抽象。目前使用的邮件发送是apache-common，而且发送邮件都是需要生成Email的实例，
@@ -20,6 +19,28 @@ import java.lang.reflect.Method;
  * @since 1.0
  */
 public abstract class AbstractConfigParser implements EmailConfigParser{
+
+    /**
+     * 追加收件人信息和邮件信息，如果之前配置文件里面有定义，在这里将会覆盖之前定义的。
+     * @param toList 收件人列表
+     * @param ccList 抄送列表
+     * @param email  邮件信息
+     * @throws EmailException 如果收件人列表为空将会抛出异常
+     */
+    protected void addToAndCc(List<String> toList, List<String> ccList, Email email) throws EmailException {
+        if (toList==null||toList.isEmpty()){
+            throw new IllegalArgumentException("收件人列表为空");
+        }
+        for (String to : toList) {
+            email.addTo(to);
+        }
+        //解析抄送人邮箱
+        if (ccList!=null&&!ccList.isEmpty()){ //抄送列表可能为空，所以需要做非空判断
+            for (String cc : ccList) {
+                email.addCc(cc);
+            }
+        }
+    }
 
     /**
      * 邮件类型
@@ -54,7 +75,7 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
     }
 
     /**
-     * 实现解析配置文件，如果在解析配置信息时没有得到发送邮件类型，默认采用发送文本邮件方案。
+     * 初步实现解析配置文件，如果在解析配置信息时没有得到发送邮件类型，默认采用发送文本邮件方案。
      * @return 解析好的配置文件
      * @throws Exception 解析失败抛出异常
      */
@@ -62,14 +83,36 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
         //首先需要解析出基础配置信息，来判断当前是发送哪种类型的邮件
         EmailType type =parseEmailType() == null ? EmailType.SIMPLE : parseEmailType();
         Email email = doParse(type);
-        switch (type){
+        afterParse(type,email,null);
+        return email;
+    }
+
+    /**
+     * 在完成初步解析之后可以调用此方法来进行二次加工
+     * @param type 邮件类型
+     * @param email 在{@link AbstractConfigParser#doParse(EmailType)}方法得到的邮件配置
+     * @param recevier 收件信息
+     * @return 解析完成后的对象
+     * @throws Exception 解析失败抛出异常
+     */
+    protected Email afterParse(EmailType type,Email email,EmailRecevier recevier) throws Exception {
+         switch (type){
             case SIMPLE:
                 return doParseSimpleEmail((SimpleEmail) email);
             case MUTIPART:
                 return doParseMutiPartEmail((MultiPartEmail) email);
             case HTML:
-                return doParseHtmlEmail((HtmlEmail) email);
+                return recevier==null?doParseHtmlEmail((HtmlEmail) email):doParseHtmlEmail((HtmlEmail) email,recevier);
         }
+        return null;
+    }
+
+    @Override
+    public Email parseAndattachRecevier(EmailRecevier receiver) throws Exception {
+        EmailType type =parseEmailType() == null ? EmailType.SIMPLE : parseEmailType();
+        Email email = doParse(type);
+        addToAndCc(receiver.getTo(),receiver.getCc(),email);
+        afterParse(type,email,receiver);
         return email;
     }
 
@@ -94,6 +137,17 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
         return null;
     }
 
+    /**
+     * 解析收件人信息，
+     * @param email
+     * @param recevier
+     * @return
+     * @throws Exception
+     */
+    protected HtmlEmail doParseHtmlEmail(HtmlEmail email,EmailRecevier recevier)throws Exception{
+        email.setHtmlMsg(recevier.getMsg());
+        return email;
+    }
     /**
      * 解析普通文本邮件的配置信息，如果有需要可以重写该方法，同样本类不提供实现，由子类去实现
      * @param email 初步解析的邮件配置信息

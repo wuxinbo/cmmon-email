@@ -1,13 +1,14 @@
 HostName: smtp.163.com
 Charset: UTF-8
 SslSmtpPort: !!str 465
-userName: ******@163.com
-password:
-From: *******@163.com
+userName: '******@163.com'
+password:  asdad
+From: '*******@163.com'
 Msg: email 测试
-Subject: ********系统通信密钥
-To: ******@outlook.com
-Type: MUTIPART
+Subject: '********系统通信密钥'
+To:
+  - '******@outlook.com'
+Type:
 attachment:
 #  Path: /****/*****/Documents/qrcode/background.png
   Url: http://f.hiphotos.baidu.com/image/h%3D300/sign=4a0a3dd10155b31983f9847573ab8286/503d269759ee3d6db032f61b48166d224e4ade6e.jpg

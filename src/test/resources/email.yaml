@@ -5,9 +5,10 @@ userName: 111111111@163.com
 password: xxxxxxxxx
 From: 11111111@163.com
 Msg: email 测试
+Debug: true
 Subject: '********系统通信密钥'
 To:
-  -
+  - wuxincai@outlook.com
 Cc:
 Type: HTML
 htmlMsg: '<html>
