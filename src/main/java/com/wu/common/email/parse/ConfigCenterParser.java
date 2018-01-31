@@ -20,6 +20,11 @@ public class ConfigCenterParser extends AbstractConfigParser{
     @Value("${email.hostName}")
     private String hostName;
     /**
+     * 编码
+     */
+    @Value("${email.charset}")
+    private String charset;
+    /**
      * 加密通信端口
      */
     @Value("${email.sslSmtpPort}")
@@ -44,7 +49,11 @@ public class ConfigCenterParser extends AbstractConfigParser{
      */
     @Value("${email.type}")
     private String type;
-
+    /**
+     * 调式模式
+     */
+    @Value("${email.debug}")
+    private boolean debug;
     @Override
     protected EmailType parseEmailType() throws Exception {
         if (StringUtils.isEmpty(type)){ //如果没有设置值，默认发送简单文本邮件
@@ -57,9 +66,12 @@ public class ConfigCenterParser extends AbstractConfigParser{
     protected Email doParse(EmailType type) throws Exception {
         Email email = type.getInstClass().newInstance();
         email.setHostName(hostName);
+        email.setCharset(charset);
         email.setSslSmtpPort(sslSmtpPort);
+        email.setSSLOnConnect(!StringUtils.isEmpty(sslSmtpPort)?true:false);
         email.setAuthentication(userName,password);
         email.setFrom(from);
+        email.setDebug(debug);
         return email;
     }
 

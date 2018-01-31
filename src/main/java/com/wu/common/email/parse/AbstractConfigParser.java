@@ -49,28 +49,22 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
         /**
          * 附件邮件
          */
-        MUTIPART(MultiPartEmail.class,"doParseMutiPartEmail"),
+        MUTIPART(MultiPartEmail.class),
         /**
          * html 邮件
          */
-        HTML(HtmlEmail.class,"doParseHtmlEmail"),
+        HTML(HtmlEmail.class),
         /**
          * 文本邮件
          */
-        SIMPLE(SimpleEmail.class,"doParseSimpleEmail");
+        SIMPLE(SimpleEmail.class);
         private Class<? extends Email> instClass;
-        private String methodName;
-        EmailType(Class<? extends Email> instClass,String parseMthodName) {
+        EmailType(Class<? extends Email> instClass) {
             this.instClass = instClass;
-            methodName =parseMthodName;
         }
 
         public Class<? extends Email> getInstClass() {
             return instClass;
-        }
-
-        public String getMethodName() {
-            return methodName;
         }
     }
 
@@ -146,6 +140,7 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
      */
     protected HtmlEmail doParseHtmlEmail(HtmlEmail email,EmailRecevier recevier)throws Exception{
         email.setHtmlMsg(recevier.getMsg());
+        email.setSubject(recevier.getSubject());
         return email;
     }
     /**

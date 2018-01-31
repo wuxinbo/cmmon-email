@@ -7,6 +7,7 @@ import com.wu.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,28 +26,50 @@ public class EmailSender {
      */
     private Logger logger = LoggerFactory.getLogger(EmailSender.class);
     /**
+     * ioc容器工厂
+     */
+    private BeanFactory beanFactory;
+    /**
      * 配置来源
      */
     public enum ConfigSource{
         /**
          * 来自于本地JSON方式
          */
-        JSON,
+        JSON(null,false),
         /**
          * 来自于本地YAML格式
          */
-        YAML,
+        YAML(null,false),
         /**
          * 来自于统一配置中心（需要引入spring）
          */
-        CONFIG_CENTER;
+        CONFIG_CENTER(ConfigCenterParser.class,true);
+
+        /**
+         * 需要实例化的对象
+         */
+        private Class<? extends EmailConfigParser> instClass;
+        /**
+         * 是否springbean
+         */
+        private boolean isSpringBean;
+        ConfigSource(Class instClass,boolean isSpringBean) {
+            this.instClass = instClass;
+            this.isSpringBean =isSpringBean;
+        }
+    }
+     /**
+     * 如果需要使用spring ioc功能，可以使用该构造函数来注入beanFactory
+     * @param beanFactory
+     */
+    public EmailSender(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
-    private static final Map<String,Class<? extends EmailConfigParser>> PARSER_MAP =new HashMap();
-    static {
-        PARSER_MAP.put(YAML.name(),YamlConfigParser.class); //YAML 配置文件
-        PARSER_MAP.put(CONFIG_CENTER.name(), ConfigCenterParser.class); //配置中心
+    public EmailSender() {
     }
+
     /**
      * 初始化邮件，
      * @param source  配置信息来源，如果没有来源将会使用本地YAML格式
@@ -58,7 +81,8 @@ public class EmailSender {
         if (source==null){ //如果没有传
             source = YAML;
         }
-        EmailConfigParser emailConfigParser = PARSER_MAP.get(source.name()).newInstance();
+        //如果是spring注入，需要使用ioc工厂获得bean对象,如果枚举标记为不使用spring，则使用反射来生成对象
+        EmailConfigParser emailConfigParser =source.isSpringBean?beanFactory.getBean(source.instClass):source.instClass.newInstance();
         return receviers==null?emailConfigParser.parse():emailConfigParser.parseAndattachRecevier(receviers);
     }
     /**
