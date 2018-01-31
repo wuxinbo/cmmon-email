@@ -2,6 +2,7 @@ package com.wu.common.email.parse;
 
 import com.wu.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.*;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -20,26 +21,23 @@ import java.util.List;
  */
 public abstract class AbstractConfigParser implements EmailConfigParser{
 
+
     /**
-     * 追加收件人信息和邮件信息，如果之前配置文件里面有定义，在这里将会覆盖之前定义的。
-     * @param toList 收件人列表
-     * @param ccList 抄送列表
-     * @param email  邮件信息
-     * @throws EmailException 如果收件人列表为空将会抛出异常
+     * 解析YAML配置的加密方式，决定加密方式
+     * @param encrypt 加密方式
+     * @param email 邮件信息
+     * @return 解析好的配置信息
      */
-    protected void addToAndCc(List<String> toList, List<String> ccList, Email email) throws EmailException {
-        if (toList==null||toList.isEmpty()){
-            throw new IllegalArgumentException("收件人列表为空");
-        }
-        for (String to : toList) {
-            email.addTo(to);
-        }
-        //解析抄送人邮箱
-        if (ccList!=null&&!ccList.isEmpty()){ //抄送列表可能为空，所以需要做非空判断
-            for (String cc : ccList) {
-                email.addCc(cc);
+    protected Email setEncrypt(String encrypt, Email email){
+        if (!StringUtils.isEmpty(encrypt)) {
+            if (Encrypt.SSL.name().equals(encrypt)){ //SSL 加密方式
+                email.setSSLOnConnect(true);
+            }else if (Encrypt.TLS.name().equals(encrypt)){ //TLS 加密方式
+                email.setStartTLSEnabled(true);
             }
         }
+        return email;
+
     }
 
     /**
@@ -65,6 +63,46 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
 
         public Class<? extends Email> getInstClass() {
             return instClass;
+        }
+    }
+
+    /**
+     * smtp 邮件服务器加密方式
+     */
+    protected enum Encrypt{
+        /**
+         * 不加密
+         */
+        NONE,
+        /**
+         * SSL 加密方式
+         */
+        SSL,
+        /**
+         * TLS 加密方式
+         */
+        TLS;
+
+    }
+     /**
+     * 追加收件人信息和邮件信息，如果之前配置文件里面有定义，在这里将会覆盖之前定义的。
+     * @param toList 收件人列表
+     * @param ccList 抄送列表
+     * @param email  邮件信息
+     * @throws EmailException 如果收件人列表为空将会抛出异常
+     */
+    protected void addToAndCc(List<String> toList, List<String> ccList, Email email) throws EmailException {
+        if (toList==null||toList.isEmpty()){
+            throw new IllegalArgumentException("收件人列表为空");
+        }
+        for (String to : toList) {
+            email.addTo(to);
+        }
+        //解析抄送人邮箱
+        if (ccList!=null&&!ccList.isEmpty()){ //抄送列表可能为空，所以需要做非空判断
+            for (String cc : ccList) {
+                email.addCc(cc);
+            }
         }
     }
 

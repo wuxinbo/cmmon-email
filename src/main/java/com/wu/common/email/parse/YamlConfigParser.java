@@ -3,6 +3,7 @@ package com.wu.common.email.parse;
 import org.apache.commons.mail.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -58,6 +59,11 @@ public class YamlConfigParser extends AbstractConfigParser{
      * 抄送人
      */
     private static final String CC_KEY="Cc";
+    /**
+     * 加密方式
+     */
+    private static final String ENCRYPT_KEY="Encrypt";
+
 
 
     /**
@@ -143,6 +149,8 @@ public class YamlConfigParser extends AbstractConfigParser{
         email.setAuthentication((String) config.get(USERNAME_KEY),(String) config.get(PASSWD_KEY));
         //解析收件人邮箱
         addToAndCc((List) config.get(TO_KEY),(List) config.get(CC_KEY),email);
+        //解析加密方式，根据需要选择加密方式或者不加密
+        setEncrypt((String) config.get(ENCRYPT_KEY),email);
         return email;
     }
 

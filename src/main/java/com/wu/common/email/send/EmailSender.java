@@ -40,7 +40,7 @@ public class EmailSender {
         /**
          * 来自于本地YAML格式
          */
-        YAML(null,false),
+        YAML(YamlConfigParser.class,false),
         /**
          * 来自于统一配置中心（需要引入spring）
          */
