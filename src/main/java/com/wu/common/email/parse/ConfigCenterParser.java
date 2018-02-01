@@ -25,6 +25,11 @@ public class ConfigCenterParser extends AbstractConfigParser{
     @Value("${email.charset}")
     private String charset;
     /**
+     * 普通端口号
+     */
+    @Value("${email.smtpPort}")
+    private int smtpPort;
+    /**
      * 加密通信端口
      */
     @Value("${email.sslSmtpPort}")
@@ -68,6 +73,7 @@ public class ConfigCenterParser extends AbstractConfigParser{
         email.setHostName(hostName);
         email.setCharset(charset);
         email.setSslSmtpPort(sslSmtpPort);
+        email.setSmtpPort(smtpPort);
         email.setSSLOnConnect(!StringUtils.isEmpty(sslSmtpPort)?true:false);
         email.setAuthentication(userName,password);
         email.setFrom(from);

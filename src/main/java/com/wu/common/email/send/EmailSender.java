@@ -94,7 +94,7 @@ public class EmailSender {
      */
     public void sendEmail(ConfigSource source, List<EmailRecevier> receviers){
         try {
-            if (receviers==null&&receviers.isEmpty()){ //如果为空抛出异常，程序终止
+            if (receviers==null||receviers.isEmpty()){ //如果为空抛出异常，程序终止
                 throw new IllegalArgumentException("receviers 不能为空");
             }
             for (EmailRecevier recevier : receviers) { //如果有多个需要发送的邮件可以循环发送

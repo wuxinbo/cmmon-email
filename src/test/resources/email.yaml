@@ -1,12 +1,13 @@
 HostName: smtp.163.com
 Charset: UTF-8
+SmtpPort:  25
 SslSmtpPort: !!str 465
-userName: 111111111@163.com
+userName:
 password: xxxxxxxxx
 From: 11111111@163.com
 Msg: email 测试
 Debug: false
-Encrypt: SSL
+Encrypt: NONE
 Subject: '********YAML系统通信密钥'
 To:
   - wuxincai@outlook.com
