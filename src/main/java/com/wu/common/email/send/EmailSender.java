@@ -106,7 +106,6 @@ public class EmailSender {
             logger.error("email send fail reason is ",e);
         }
     }
-
     /**
      * 调用者只需要提供一个配置来源就可以完成邮件的发送，而其余收件人信息和需要发送的内容都将会从配置文件里面读取。在某些固定的场景中，如果
      * 收件人和每次需要发送的内容比较固定则可以使用该方法。如果需要灵活性可以使用{@link EmailSender#sendEmail(ConfigSource, List)}
