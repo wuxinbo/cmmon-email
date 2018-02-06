@@ -4,7 +4,6 @@ import com.wu.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.*;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -135,6 +134,8 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
                 return doParseMutiPartEmail((MultiPartEmail) email);
             case HTML:
                 return recevier==null?doParseHtmlEmail((HtmlEmail) email):doParseHtmlEmail((HtmlEmail) email,recevier);
+            default:
+
         }
         return null;
     }

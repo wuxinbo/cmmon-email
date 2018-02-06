@@ -3,7 +3,6 @@ package com.wu.common.email.parse;
 import org.apache.commons.mail.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;

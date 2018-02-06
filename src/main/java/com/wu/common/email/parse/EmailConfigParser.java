@@ -3,7 +3,7 @@ package com.wu.common.email.parse;
 import com.wu.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.Email;
 
-import java.util.List;
+
 
 /**
  * 邮箱配置信息解析接口
