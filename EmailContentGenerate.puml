@@ -1,0 +1,11 @@
+@startuml
+application->database: 根据在应用里面存储模板iD
+database->application: 返回具体的模板配置信息
+application->hardDisk: 根据db中配置的模板路径读取具体的文件内容
+application->freemark: 使用模板引擎生成邮件内容和标题
+application->hardDisk: 将邮件内容作为html文件写入磁盘
+application->database: 将邮件内容包括主题相关信息记录到db
+
+
+
+@enduml
