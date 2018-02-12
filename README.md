@@ -9,3 +9,4 @@
 ...
 ## 关键类关系图
 ![email-config](./img/email-config.png)
+
