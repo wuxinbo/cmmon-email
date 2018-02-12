@@ -1,4 +1,4 @@
-# common-email
+# common-email ![](https://travis-ci.org/wuxinbo/common-email.svg?branch=master)
 ## 介绍
 本项目主要是对[apache-common-email](http://commons.apache.org/proper/commons-email)的邮件发送功能进行简单封装.
 抽象邮箱配置逻辑，尽量做到靠配置文件来控制邮件的发送类型。在当前的版本中实现了支持解析[YAML](http://yaml.org/).
