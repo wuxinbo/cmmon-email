@@ -5,6 +5,7 @@ SslSmtpPort: !!str 465
 userName:
 password: xxxxxxxxx
 From: 11111111@163.com
+FromName:
 Msg: email 测试
 Debug: false
 Encrypt: NONE

@@ -19,7 +19,7 @@ public class EmailTest {
         Email yamlEmail = new YamlConfigParser().parse();
         Assert.assertNotNull("不能为空",yamlEmail);
     }
-//    @Test
+    @Test
     public void sendEmail() {
         new EmailSender().sendEmail(EmailSender.ConfigSource.YAML);
     }
