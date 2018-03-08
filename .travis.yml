@@ -2,4 +2,9 @@ language: java
 jdk:
    - oraclejdk8
 script:
-   mvn compile
+   mvn install jacoco:prepare-agent
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+env:
+  global:
+    - CODECOV_TOKEN=: 25c41b59-eecf-4ebf-8644-d1bf6130bf48

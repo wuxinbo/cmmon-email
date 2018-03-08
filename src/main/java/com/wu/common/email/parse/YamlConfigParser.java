@@ -29,6 +29,14 @@ public class YamlConfigParser extends AbstractConfigParser{
      */
     private static final String USERNAME_KEY="userName";
     /**
+     * 发件人邮箱
+     */
+    private static final String FROM="From";
+    /**
+     * 显示名称
+     */
+    private static final String FROM_NAME = "FromName";
+    /**
      * map 中的密码key
      */
     private static final String PASSWD_KEY="password";
@@ -150,6 +158,7 @@ public class YamlConfigParser extends AbstractConfigParser{
         addToAndCc((List) config.get(TO_KEY),(List) config.get(CC_KEY),email);
         //解析加密方式，根据需要选择加密方式或者不加密
         setEncrypt((String) config.get(ENCRYPT_KEY),email);
+        email.setFrom((String) config.get(FROM),(String) config.get(FROM_NAME));
         return email;
     }
 
