@@ -1,4 +1,9 @@
 build:
+   image: maven:latest
+   cache:
+     paths:
+        - .m2/repository/
+        - target/
    script: mvn install
    tags: 
      - java
