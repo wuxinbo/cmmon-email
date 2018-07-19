@@ -1,2 +1,5 @@
-job1:
-    script: "mvn compile"
+build:
+   script: mvn install
+   tags: 
+     - java
+   stage: build
