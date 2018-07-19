@@ -5,6 +5,4 @@ build:
         - .m2/repository/
         - target/
    script: mvn install
-   tags: 
-     - java
    stage: build
