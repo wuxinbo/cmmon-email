@@ -1,4 +1,4 @@
-# common-email ![[build](https://www.travis-ci.org/wuxinbo/common-email)](https://travis-ci.org/wuxinbo/common-email.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/wuxinbo/common-email/badge.svg?branch=master)](https://coveralls.io/github/wuxinbo/common-email?branch=master) [![BCH compliance](https://bettercodehub.com/edge/badge/wuxinbo/common-email?branch=master)](https://bettercodehub.com/)
+# common-email ![[build](https://www.travis-ci.org/wuxinbo/common-email)](https://travis-ci.org/wuxinbo/common-email.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/wuxinbo/common-email/badge.svg?branch=dev)](https://coveralls.io/github/wuxinbo/common-email?branch=dev) [![BCH compliance](https://bettercodehub.com/edge/badge/wuxinbo/common-email?branch=master)](https://bettercodehub.com/)
 ## 介绍
 本项目主要是对[apache-common-email](http://commons.apache.org/proper/commons-email)的邮件发送功能进行简单封装.
 抽象邮箱配置逻辑，尽量做到靠配置文件来控制邮件的发送类型。在当前的版本中实现了支持解析[YAML](http://yaml.org/).
