@@ -1,4 +1,4 @@
-package com.wu.common.email.parse;
+package com.github.wuxinbo.common.email.parse;
 
 import org.apache.commons.mail.Email;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
  * Created by wuxinbo on 18-1-26.
  */
 @Component
-public class ConfigCenterParser extends AbstractConfigParser{
+public class ConfigCenterParser extends AbstractConfigParser {
     /**
      * 主机名
      */

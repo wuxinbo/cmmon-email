@@ -1,6 +1,6 @@
-package com.wu.common.email.parse;
+package com.github.wuxinbo.common.email.parse;
 
-import com.wu.common.email.receiver.EmailRecevier;
+import com.github.wuxinbo.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.*;
 import org.springframework.util.StringUtils;
 

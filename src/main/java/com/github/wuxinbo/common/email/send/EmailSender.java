@@ -1,20 +1,18 @@
-package com.wu.common.email.send;
+package com.github.wuxinbo.common.email.send;
 
-import com.wu.common.email.parse.ConfigCenterParser;
-import com.wu.common.email.parse.EmailConfigParser;
-import com.wu.common.email.parse.YamlConfigParser;
-import com.wu.common.email.receiver.EmailRecevier;
+import com.github.wuxinbo.common.email.parse.ConfigCenterParser;
+import com.github.wuxinbo.common.email.parse.EmailConfigParser;
+import com.github.wuxinbo.common.email.parse.YamlConfigParser;
+import com.github.wuxinbo.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.wu.common.email.send.EmailSender.ConfigSource.CONFIG_CENTER;
-import static com.wu.common.email.send.EmailSender.ConfigSource.YAML;
+import static com.github.wuxinbo.common.email.send.EmailSender.ConfigSource.YAML;
+
 
 /**
  * 邮件发送器

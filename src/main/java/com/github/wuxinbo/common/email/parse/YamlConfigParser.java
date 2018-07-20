@@ -1,5 +1,6 @@
-package com.wu.common.email.parse;
+package com.github.wuxinbo.common.email.parse;
 
+import com.github.wuxinbo.common.email.parse.AbstractConfigParser;
 import org.apache.commons.mail.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import java.util.Map;
  * yaml 格式配置文件解析器
  * Created by wuxinbo on 18-1-25.
  */
-public class YamlConfigParser extends AbstractConfigParser{
+public class YamlConfigParser extends AbstractConfigParser {
     private static Logger logger =LoggerFactory.getLogger(YamlConfigParser.class);
     /**
      * 字符串截取长度

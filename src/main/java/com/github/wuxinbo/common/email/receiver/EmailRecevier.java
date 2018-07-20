@@ -1,4 +1,4 @@
-package com.wu.common.email.receiver;
+package com.github.wuxinbo.common.email.receiver;
 
 import java.util.List;
 

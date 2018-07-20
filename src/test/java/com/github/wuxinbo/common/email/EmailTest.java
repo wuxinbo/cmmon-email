@@ -1,7 +1,7 @@
-package com.wu.common;
+package com.github.wuxinbo.common.email;
 
-import com.wu.common.email.parse.YamlConfigParser;
-import com.wu.common.email.send.EmailSender;
+import com.github.wuxinbo.common.email.parse.YamlConfigParser;
+import com.github.wuxinbo.common.email.send.EmailSender;
 import org.apache.commons.mail.Email;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class EmailTest {
         Email yamlEmail = new YamlConfigParser().parse();
         Assert.assertNotNull("不能为空",yamlEmail);
     }
-    @Test
+//    @Test
     public void sendEmail() {
         new EmailSender().sendEmail(EmailSender.ConfigSource.YAML);
     }
