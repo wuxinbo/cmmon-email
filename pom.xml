@@ -7,7 +7,11 @@
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>email</name>
-
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.7.RELEASE</spring.version>
@@ -48,7 +52,24 @@
 
 
 	</dependencies>
-
+	<scm>
+		<connection>https://github.com/wuxinbo/common-email.git</connection>
+        <developerConnection>https://github.com/wuxinbo</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<email>wuxincai@outlook.com</email>
+			<name>wuxinbo</name>
+			<url>https://github.com/wuxinbo</url>
+		</developer>
+	</developers>
+	<distributionManagement>
+		<repository>
+			<id>oss</id>
+			<name>OSS Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<pluginManagement>
 			<plugins>
