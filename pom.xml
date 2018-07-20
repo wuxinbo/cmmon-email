@@ -5,7 +5,7 @@
 	<groupId>com.wu.common</groupId>
 	<artifactId>email</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>email</name>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -59,7 +59,7 @@
 	<developers>
 		<developer>
 			<email>wuxincai@outlook.com</email>
-			<name>wuxinbo</name>
+			<name>xbwuc</name>
 			<url>https://github.com/wuxinbo</url>
 		</developer>
 	</developers>
