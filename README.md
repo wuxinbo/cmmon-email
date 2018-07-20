@@ -11,4 +11,18 @@
 ...
 ## 关键类关系图
 ![email-config](./img/email-config.png)
+## 引用
+目前jar已经推送到中央仓库可以通过下列方式引用：
+```xml
+<dependency>
+  <groupId>com.github.wuxinbo</groupId>
+  <artifactId>common-email</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+[gradle](https://gradle.org/)
+```groovy
+compile 'com.github.wuxinbo:common-email:1.0.0'
+```
+
 
