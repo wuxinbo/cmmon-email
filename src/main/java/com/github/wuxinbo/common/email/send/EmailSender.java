@@ -90,7 +90,7 @@ public class EmailSender {
      * @param receviers 收件人和抄送人
      * @see #sendEmail(ConfigSource)
      */
-    public void sendEmail(ConfigSource source, List<EmailRecevier> receviers){
+    public void sendEmail(ConfigSource source, List<EmailRecevier> receviers) throws Exception {
         try {
             if (receviers==null||receviers.isEmpty()){ //如果为空抛出异常，程序终止
                 throw new IllegalArgumentException("receviers 不能为空");
@@ -102,6 +102,7 @@ public class EmailSender {
             }
         } catch (Exception e) {
             logger.error("email send fail reason is ",e);
+            throw e;
         }
     }
     /**
@@ -110,13 +111,14 @@ public class EmailSender {
      * @param source 配置方式来源
      * @see #sendEmail(ConfigSource, List)
      */
-    public void sendEmail(ConfigSource source){
+    public void sendEmail(ConfigSource source) throws Exception {
         try {
             Email email = init(source);
             String result = email.send();
             logger.debug("send result is "+result);
         } catch (Exception e) {
             logger.error("email send fail reason is ",e);
+            throw e;
         }
     }
 

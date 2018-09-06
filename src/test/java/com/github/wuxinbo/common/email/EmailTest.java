@@ -21,7 +21,11 @@ public class EmailTest {
     }
 //    @Test
     public void sendEmail() {
-        new EmailSender().sendEmail(EmailSender.ConfigSource.YAML);
+        try {
+            new EmailSender().sendEmail(EmailSender.ConfigSource.YAML);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
