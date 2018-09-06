@@ -2,6 +2,8 @@ package com.github.wuxinbo.common.email.parse;
 
 import com.github.wuxinbo.common.email.receiver.EmailRecevier;
 import org.apache.commons.mail.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public abstract class AbstractConfigParser implements EmailConfigParser{
 
-
+    private Logger logger =LoggerFactory.getLogger(getClass());
     /**
      * 解析YAML配置的加密方式，决定加密方式
      * @param encrypt 加密方式
@@ -92,7 +94,8 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
      */
     protected void addToAndCc(List<String> toList, List<String> ccList, Email email) throws EmailException {
         if (toList==null||toList.isEmpty()){
-            throw new IllegalArgumentException("收件人列表为空");
+            logger.info("收件人列表为空");
+            return ;
         }
         for (String to : toList) {
             email.addTo(to);
@@ -127,7 +130,10 @@ public abstract class AbstractConfigParser implements EmailConfigParser{
      * @throws Exception 解析失败抛出异常
      */
     protected Email afterParse(EmailType type,Email email,EmailRecevier recevier) throws Exception {
-         switch (type){
+        if (!StringUtils.isEmpty(recevier.getMsg())){ //如果消息内容不为空，设置消息内容
+            email.setMsg(recevier.getMsg());
+        }
+        switch (type){
             case SIMPLE:
                 return doParseSimpleEmail((SimpleEmail) email);
             case MUTIPART:
