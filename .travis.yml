@@ -4,7 +4,11 @@ jdk:
 script:
    mvn compile
 after_success:
-  - mvn cobertura:cobertura coveralls:report
+  - mvn cobertura:cobertura coveralls:report sonar:sonar \
+  -Dsonar.projectKey=wuxinbo_common-email \
+  -Dsonar.organization=wuxinbo-github \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=ba705a6c14c81ba4a3a828f70558de8d38f9293a
 env:
   global:
     - CODECOV_TOKEN=: 25c41b59-eecf-4ebf-8644-d1bf6130bf48
