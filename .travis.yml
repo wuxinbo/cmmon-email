@@ -1,14 +1,14 @@
 language: java
+addons:
+   sonarcloud:
+     organzation: wuxinbo-github
+     token: PTJHwWI8wRwsMkHlK+5jJAYuqMVaX28ITMoY9hZWkeRthdJFxW2BC7U/86XLkdYfWxcenNmEE2muHuvhQy2ZRLWaNcZNFxf3gnKEIc2orXRRlaeAw8/QGLGwQfniZuex5hVCEQ9UDvSpaquBpUgpMIkVleU/0WJCTKlvvHjZTM6ygLMwlWh7Kmdz0gnBsmE+/UEd2uaEwTR2kLbt93syyyqdcVwoLK9JwmVNOTNX8ZB1mrIyF076xyTuI8zXECTrqwyQiSVI3GVvPDYaZU+trAoemcyuKrg7Wg8gTv2AKmYa0chkl11bz/jpwYCefVXlzu0cJ3W6P/zL6chI4MtbaDtQsbS/VacXD8swJRtJzo1oRl+EvX9076PNxv9C0gVsTD5oQ62xqLPPyeNf8FSTbtvDH6O0NZphmWsgko+n0PTGht7Sum4qixQ5W4GayHlrJeDuwKXOyU+apBonVP6NIpgxW3DxhoLnQtUUkJtHfKsL4/4PV9Az37goKxbJd6d2k3UDL0MzmtfZc1wWH3NSjuqWM+pYyzo5TPqVdPWAIOrSgRCZSfUwSvoW1EhwX1kY5XwBa915J5JXbd5pBP6vPJahA/mm5+15l8rdw3+MOnng9WNN+1LjGJL4yj4oo29BcGxWbqqYqpFeGxA6KwgEjZAq+/cSlua+Jbp9GKmHIvg=
 jdk:
    - oraclejdk8
 script:
    mvn compile
 after_success:
-  - mvn cobertura:cobertura coveralls:report sonar:sonar \
-  -Dsonar.projectKey=wuxinbo_common-email \
-  -Dsonar.organization=wuxinbo-github \
-  -Dsonar.host.url=https://sonarcloud.io \
-  -Dsonar.login=ba705a6c14c81ba4a3a828f70558de8d38f9293a
+  - mvn cobertura:cobertura coveralls:report sonar:sonar 
 env:
   global:
     - CODECOV_TOKEN=: 25c41b59-eecf-4ebf-8644-d1bf6130bf48
