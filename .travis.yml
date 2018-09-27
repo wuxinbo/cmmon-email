@@ -7,7 +7,7 @@ addons:
 jdk:
    - oraclejdk8
 script:
-   mvn cobertura:cobertura coveralls:report sonar:sonar 
+   mvn clean cobertura:cobertura coveralls:report sonar:sonar 
 env:
   global:
     - CODECOV_TOKEN=: 25c41b59-eecf-4ebf-8644-d1bf6130bf48
